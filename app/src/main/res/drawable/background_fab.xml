@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval" >
+            <gradient android:angle="-45"
+                android:centerColor="#FF1893"
+                android:endColor="#A78AFF"
+                android:startColor="#FA7250"></gradient>
+        </shape>
+    </item>
+    <item>
+        <inset
+            android:drawable="@drawable/ic_fullscreen"
+            android:inset="12dp"></inset>
+    </item>
+</layer-list>
