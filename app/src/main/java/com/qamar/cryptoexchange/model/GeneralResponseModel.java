@@ -1,11 +1,11 @@
-package com.qamar.cryptoexchange.di;
+package com.qamar.cryptoexchange.model;
 
-public class NetworkResponse<T> {
+public class GeneralResponseModel<T> {
     private boolean success;
     private T data;
     private String message;
 
-    public NetworkResponse(boolean success, T data, String message) {
+    public GeneralResponseModel(boolean success, T data, String message) {
         this.success = success;
         this.data = data;
         this.message = message;

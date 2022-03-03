@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initListing();
-        new Timer(86400000, 5000, this, () -> viewModel.getCurrencyList(true)).start();
+        new Timer(86400000, 5000, this, () -> viewModel.getCurrencyList()).start();
 
     }
 
@@ -71,14 +71,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         binding.rlCurrency.setLayoutManager(new LinearLayoutManager(this));
         binding.rlCurrency.setAdapter(adapter);
-        viewModel.getCurrencyList(false).observe(this, response -> {
+        viewModel.getCurrencyList().observe(this, response -> {
             if (response.isSuccess()) {
                 Log.d(TAG, "Response Successful " + response.getData());
                 adapter.setData(response.getData());
                 getLogsFromNative(response.getData());
                 Needle.onBackgroundThread().execute(() -> writeInFile(getLogsFromNative(response.getData())));
             } else {
-                Toast.makeText(this, "Error Fetching data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.message_error_loading, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
         return logs;
     }
-
 
     //native function
     native String stringFromJNICrypto(Currency ob, String timeStamp);

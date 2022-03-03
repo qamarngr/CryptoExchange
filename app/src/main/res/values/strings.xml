@@ -9,4 +9,5 @@
     <string name="message_file_write_permission">We need to access External Storage to write App logs</string>
     <string name="label_ok">Ok</string>
     <string name="message_cannot_write">Cannot Write files</string>
+    <string name="message_error_loading">Error Fetching data</string>
 </resources>

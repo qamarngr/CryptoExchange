@@ -6,9 +6,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.qamar.cryptoexchange.R;
 import com.qamar.cryptoexchange.api.CryptoApi;
-import com.qamar.cryptoexchange.di.NetworkResponse;
+
 import com.qamar.cryptoexchange.model.Currency;
 import com.qamar.cryptoexchange.model.CurrencyResponseModel;
+import com.qamar.cryptoexchange.model.GeneralResponseModel;
+import com.qamar.cryptoexchange.util.Constants;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class Repository implements ICurrencyRepository {
     }
 
     @Override
-    public void getCurrencyList(MutableLiveData<NetworkResponse<List<Currency>>> liveData) {
+    public void getCurrencyList(MutableLiveData<GeneralResponseModel<List<Currency>>> liveData) {
         api.getCurrencyRates().enqueue(new Callback<CurrencyResponseModel>() {
             @Override
             public void onResponse(Call<CurrencyResponseModel> call, Response<CurrencyResponseModel> response) {
@@ -47,7 +49,7 @@ public class Repository implements ICurrencyRepository {
                         Currency usdCurrency = null;
                         while (iterator.hasNext()) {
                             String key = iterator.next();
-                            if (key.equals("usd")) {
+                            if (key.equals(Constants.TYPE_USD)) {
                                 usdCurrency = response.body().rates.get(key);
                             }
                             rawCurrencyList.add(response.body().rates.get(key));
@@ -55,7 +57,7 @@ public class Repository implements ICurrencyRepository {
                         if (rawCurrencyList != null) {
                             List<Currency> processedList = new ArrayList<>();
                             for (int i = 0; i < rawCurrencyList.size(); i++) {
-                                if (rawCurrencyList.get(i).type.equals("crypto")) {
+                                if (rawCurrencyList.get(i).type.equals(Constants.TYPE_CRYPTO)) {
                                     Currency currencyObj = rawCurrencyList.get(i);
                                     if (usdCurrency != null) {
                                         currencyObj.priceUSD = usdCurrency.value / currencyObj.value;
@@ -63,12 +65,12 @@ public class Repository implements ICurrencyRepository {
                                     processedList.add(currencyObj);
                                 }
                             }
-                            liveData.postValue(new NetworkResponse(true, processedList, app.getString(R.string.message_network_success)));
+                            liveData.postValue(new GeneralResponseModel(true, processedList, app.getString(R.string.message_network_success)));
                         } else {
-                            liveData.postValue(new NetworkResponse(true, null, app.getString(R.string.message_network_invalid_data)));
+                            liveData.postValue(new GeneralResponseModel(true, null, app.getString(R.string.message_network_invalid_data)));
                         }
                     } else {
-                        liveData.postValue(new NetworkResponse(true, null, app.getString(R.string.message_network_invalid_data)));
+                        liveData.postValue(new GeneralResponseModel(true, null, app.getString(R.string.message_network_invalid_data)));
                     }
 
                 }
@@ -76,7 +78,7 @@ public class Repository implements ICurrencyRepository {
 
             @Override
             public void onFailure(Call<CurrencyResponseModel> call, Throwable t) {
-                liveData.postValue(new NetworkResponse(false, null, app.getString(R.string.message_network_error)));
+                liveData.postValue(new GeneralResponseModel(false, null, app.getString(R.string.message_network_error)));
             }
         });
     }

@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.qamar.cryptoexchange.di.NetworkResponse;
+import com.qamar.cryptoexchange.model.GeneralResponseModel;
 import com.qamar.cryptoexchange.model.Currency;
 import com.qamar.cryptoexchange.repository.Repository;
 
@@ -26,10 +26,10 @@ public class MainActivityViewModel extends ViewModel {
         this.repository = repository;
     }
 
-    private MutableLiveData<NetworkResponse<List<Currency>>> _currencyList;
+    private MutableLiveData<GeneralResponseModel<List<Currency>>> _currencyList;
 
-    public LiveData<NetworkResponse<List<Currency>>> getCurrencyList(boolean forceLoad) {
-        if (_currencyList == null ) {
+    public LiveData<GeneralResponseModel<List<Currency>>> getCurrencyList() {
+        if (_currencyList == null) {
             _currencyList = new MutableLiveData<>();
         }
         loadCurrencyRates();

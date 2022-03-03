@@ -21,7 +21,6 @@ import java.util.Locale;
 public class CryptoListAdapter extends RecyclerView.Adapter<CryptoListAdapter.ViewHolder> {
 
     private List<Currency> list;
-
     public CryptoListAdapter(List<Currency> list) {
         this.list = list;
     }
@@ -55,10 +54,6 @@ public class CryptoListAdapter extends RecyclerView.Adapter<CryptoListAdapter.Vi
         private ItemAssetBinding binding;
         DecimalFormat format = new DecimalFormat(Constants.CURRENCY_FORMAT);
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-
         public ViewHolder(ItemAssetBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -74,7 +69,7 @@ public class CryptoListAdapter extends RecyclerView.Adapter<CryptoListAdapter.Vi
             int drawableRes = context.getResources().getIdentifier("ic_" + currency.unit.toLowerCase(Locale.ROOT), "drawable",
                     context.getPackageName());
             binding.tvName.setText(currency.name);
-            binding.tvPriceUsd.setText("$" + format.format(currency.priceUSD));
+            binding.tvPriceUsd.setText(Constants.DOLLAR + format.format(currency.priceUSD));
             binding.tvPriceBtc.setText(format.format(currency.value) + Constants.BTC);
             if (drawableRes > 0) {
                 binding.ivBadge.setImageResource(drawableRes);
