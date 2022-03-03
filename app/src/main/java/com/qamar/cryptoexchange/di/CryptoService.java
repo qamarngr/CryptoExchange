@@ -19,6 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @InstallIn(SingletonComponent.class)
 public class CryptoService {
     private static final String TAG = "CryptoService";
+
+
     @Provides
     public static CryptoApi provideAnalyticsService() {
         Gson gson = new GsonBuilder()
@@ -27,12 +29,7 @@ public class CryptoService {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .client(new OkHttpClient.Builder()
-                        /*.addInterceptor(chain -> {
-                            Response response = chain.proceed(chain.request());
-                            Log.d(TAG,response.body().string() );
-                            return response;
-                        })*/
-                        .callTimeout(50, TimeUnit.SECONDS)
+                        .callTimeout(5, TimeUnit.SECONDS)
                         .build())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()

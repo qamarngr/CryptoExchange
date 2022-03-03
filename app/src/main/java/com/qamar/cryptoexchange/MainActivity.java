@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         binding.rlCurrency.setAdapter(adapter);
         viewModel.getCurrencyList().observe(this, response -> {
             if (response.isSuccess()) {
+                Toast.makeText(this, R.string.message_network_success, Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Response Successful " + response.getData());
                 adapter.setData(response.getData());
                 getLogsFromNative(response.getData());
