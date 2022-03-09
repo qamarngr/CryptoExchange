@@ -22,7 +22,7 @@ public class CryptoService {
 
 
     @Provides
-    public static CryptoApi provideAnalyticsService() {
+    public static CryptoApi provideService() {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
